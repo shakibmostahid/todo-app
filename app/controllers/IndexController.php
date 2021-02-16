@@ -13,7 +13,7 @@ class IndexController extends Controller
      */
     public function indexAction()
     {
-        $todoList = $this->database->query('select * from todo_lists')->findAll();
+        $todoList = $this->database->query('SELECT * FROM todo_lists')->findAll();
 
         $this->render(
             'todo',
@@ -34,7 +34,7 @@ class IndexController extends Controller
     {
         try {
             if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-                throw new Exception('Post expected Get received', 405);
+                throw new Exception("POST expected {$_SERVER['REQUEST_METHOD']} received", 405);
             }
 
             if (!isset($_POST['text']) || !$_POST['text']) {
@@ -70,7 +70,7 @@ class IndexController extends Controller
     {
         try {
             if ($_SERVER['REQUEST_METHOD'] != 'PUT') {
-                throw new Exception('Post expected Get received', 405);
+                throw new Exception("PUT expected {$_SERVER['REQUEST_METHOD']} received", 405);
             }
 
             $data = $this->getRequestBody();
@@ -112,7 +112,7 @@ class IndexController extends Controller
     {
         try {
             if ($_SERVER['REQUEST_METHOD'] != 'DELETE') {
-                throw new Exception('Post expected Get received', 405);
+                throw new Exception("DELETE expected {$_SERVER['REQUEST_METHOD']} received", 405);
             }
 
             $data = $this->getRequestBody();
@@ -122,7 +122,7 @@ class IndexController extends Controller
             }
             $ids = implode(', ', $data['ids']);
 
-            $this->database->query("DELETE FROM todo_lists WHERE id in ($ids)")
+            $this->database->query("DELETE FROM todo_lists WHERE id IN ($ids)")
                 ->execute();
 
             $this->jsonRender(200, ['success' => true]);
